@@ -1,5 +1,7 @@
 # Slotify
 
+![Slotify login page](docs/login.png)
+
 Campus facility booking web system — **v1.0.0**
 
 Students request room/facility slots; admins approve or reject. Built as a personal software engineering project (Java, Spring Boot, MySQL, Thymeleaf).
