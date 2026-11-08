@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xlmns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width-device-width, initial-scale=1">
+    <title>Slotify — Home</title>
+    <link rel="stylesheet" th:href="@{/css/slotify.css}">
+</head>
+<body>
+    <div class="app-shell">
+        <header class="app-nav">
+            <a class="app-logo" th:href="@{/home}">Slotify</a>
+            <div class="app-nav-actions">
+                <a th:href="@{/resources}">Resources</a>
+                <a th:href="@{/bookings}">My bookings</a>
+                <a th:if="${user.role == 'ADMIN'}" th:href="@{/admin/bookings}">Admin</a>
+                <span th:text="${user.fullName}">Student</span>
+                <a th:href="@{/logout}">Sign out</a>
+            </div>
+        </header>
+
+        <main class="app-main">
+            <section class="hero-block">
+                <h1>Hi, <span th:text="${user.fullName}">Student</span></h1>
+                <p th:if="${user.role == 'STUDENT'}">
+                    Book campus rooms and equipment. Submit a request, then track approval here.
+                </p>
+                <o th:if="${user.role == 'ADMIN'}">
+                    Review pending booking requests and keep campus resources conflic-free.
+                </o>
+            </section>
+
+            <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:1.5rem;">
+                <a class="btn" th:href="@{/resources}" style="width:auto;padding:0.85rem 1.2rem;text-decoration:none;">
+                    Browse resources
+                </a>
+                <a th:href="@{/bookings}"
+                   style="display:inline-flex;align-items:center;padding:0.85rem 1.2rem;border:1.5px solid var(--line);border-radius:12px;color:var(--ink);text-decoration:none;font-weight:700;">
+                   My bookings
+                </a>
+                <a th:if="${user.role == 'ADMIN'}"
+                   th:href="@{/admin/bookings}"
+                   style="display:inline-flex;align-items:center;padding:0.85rem 1.2rem;border:1.5px solid var(--line);border-radius:12px;color:var(--ink);text-decoration:none;font-weight:700;">
+                   Pending requests
+                </a>
+            </div>
+
+            <div class="stat-row">
+                <div class="stat">
+                    <span class="stat-label">Role</span>
+                    <span class="stat-value" th:text="${user.role}">STUDENT</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Status</span>
+                    <span class="stat-value">Signed in</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">Tip</span>
+                    <span class="stat-value" style="font-size:1rem;"
+                          th:text="${user.role == 'ADMIN'} ? 'Review pending first' : 'Request → Wait → Done'">
+                        Tip
+                    </span>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

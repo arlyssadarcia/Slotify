@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Slotify — My bookings</title>
+    <link rel="stylesheet" th:href="@{/css/slotify.css}">
+</head>
+<body>
+    <div class="app-shell">
+        <header class="app-nav">
+            <a class="app-logo" th:href="@{/home}">Slotify</a>
+            <div class="app-nav-actions">
+                <a th:href="@{/resources}">Resources</a>
+                <a th:href="@{/bookings}">My bookings</a>
+                <a th:if="${user.role == 'ADMIN'}" th:href="@{/admin/bookings}">Admin</a>
+                <span th:text="${user.fullName}">Student</span>
+                <a th:href="@{/logout}">Sign out</a>
+            </div>
+        </header>
+
+        <main class="app-main">
+            <section class="hero-block">
+                <h1>My bookings</h1>
+                <p>Your requests and their status.</p>
+            </section>
+
+            <p th:if="${success}" th:text=${success} class="alert-success"></p>
+
+            <p th:if="${#lists.isEmpty(bookings)}" style="margin-top:1.5rem;color:var(--ink-soft);">
+                No bookings yet.
+                <a th:href="@{/resources}">Browse resources</a>
+                to request a slot
+            </p>
+
+            <div class="stat-row" style="grid-template-columns:1fr;" th:if="${!#lists.isEmpty(bookings)}">
+                <div class="stat" th:each="b : ${bookings}">
+                    <span class="stat-label" th:text="${b.status}">PENDING</span>
+                    <span class="stat-value" th:text="${b.resource.name}">Lab</span>
+                    <p style="margin:0.5rem 0 0;color:var(--ink-soft);">
+                        <span th:text="${#temporals.format(b.startAt, 'dd MM yyyy, h:mm a')}">start</span>
+                        →
+                        <span th:text="${#temporals.format(b.endAt, 'dd MM yyyy, h:mm a')}">end</span>
+                    </p>
+                    <p style="margin:0.35rem 0 0;color:var(--ink-soft);"
+                       th:if="${b.purpose != null}" th:text="${b.purpose}"></p>
+                    <p style="margin:0.35rem 0 0;color:#9b2c2c;"
+                       th:if="${b.status == 'REJECTED' and b.rejectReason != null}"
+                       th:text="'Reason: ' + ${b.rejectReason}">
+                    </p>
+
+                    <form th:if="${b.status == 'PENDING'}"
+                            method="post"
+                            th:action="@{/bookings/cancel}"
+                            style="margin-top:0.85rem;">
+                        <input type="hidden" name="bookingId" th:value="${b.bookingId}">
+                        <button class="btn" type="submit" style="width:auto;padding:0.6rem 1rem;background:#6b7280;">
+                            Cancel request
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

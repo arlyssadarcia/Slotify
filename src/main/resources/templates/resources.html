@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Slotify — Resources</title>
+    <link rel="stylesheet" th:href="@{/css/slotify.css}">
+</head>
+<body>
+    <div class="app-shell">
+        <header class="app-nav">
+            <a class="app-logo" th:href="@{/home}">Slotify</a>
+            <div class="app-nav-actions">
+                <a th:href="@{/resources}">Resources</a>
+                <a th:href="@{/bookings}">My bookings</a>
+                <a th:if="${user.role == 'ADMIN'}" th:href="@{/admin/bookings}">Admin</a>
+                <span th:text="${user.fullName}">Student</span>
+                <a th:href="@{/logout}">Sign out</a>
+            </div>
+        </header>
+
+        <main class="app-main">
+            <section class="hero-block">
+                <h1>Resources</h1>
+                <p>Active rooms and equipment you can book.</p>
+            </section>
+
+            <p th:if="${#lists.isEmpty(resources)}" style="margin-top:1.5rem;color:var(--ink-soft);">
+                No active resources yet. We'll add some next.
+            </p>
+
+            <div class="stat-row" style="grid-template-columns:1fr;" th:if="${!#lists.isEmpty(resources)}">
+                <div class="stat" th:each="r : ${resources}">
+                    <span class="stat-label" th:text="${r.type}">ROOM</span>
+                    <span class="stat-value" th:text="${r.name}">Lab A</span>
+                    <p style="margin:0.5rem 0 0;color:var(--ink-soft);"
+                       th:text="${r.location != null ? r.location : 'No location'}">Location</p>
+
+                    <p style="margin:0.85rem 0 0;">
+                        <a th:href="@{/bookings/new(resourceId=${r.resourceId})}">Book this</a>
+                    </p>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

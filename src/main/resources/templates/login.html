@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Slotify — Sign in</title>
+  <link rel="stylesheet" th:href="@{/css/slotify.css}">
+</head>
+<body>
+  <div class="auth-shell">
+    <section class="auth-brand">
+      <div>
+        <p class="brand-mark">Slotify</p>
+        <p class="brand-tag">Book campus rooms and equipment without the email chase.</p>
+      </div>
+      <p class="brand-meta">UNIMAS campus booking</p>
+    </section>
+
+    <section class="auth-panel">
+      <div class="auth-form">
+        <h1>Welcome back</h1>
+        <p class="lede">Sign in to request slots and track approvals.</p>
+
+        <p th:if="${success}" th:text="${success}" class="alert-success"></p>
+
+        <p th:if="${error}" th:text="${error}" class="alert"></p>
+
+        <form method="post" th:action="@{/login}">
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" type="email" name="email" required>
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <input id="password" type="password" name="password" required>
+          </div>
+          <button class="btn" type="submit">Sign in</button>
+        </form>
+
+        <p class="auth-foot">New here? <a th:href="@{/register}">Create a student account</a></p>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

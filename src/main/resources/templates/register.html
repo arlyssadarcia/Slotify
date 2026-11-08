@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Slotify — Create account</title>
+  <link rel="stylesheet" th:href="@{/css/slotify.css}">
+</head>
+<body>
+  <div class="auth-shell">
+    <section class="auth-brand">
+      <div>
+        <p class="brand-mark">Slotify</p>
+        <p class="brand-tag">One place for rooms, labs, and equipment — request, wait, done.</p>
+      </div>
+      <p class="brand-meta">Built for campus workflows</p>
+    </section>
+
+    <section class="auth-panel">
+      <div class="auth-form">
+        <h1>Create account</h1>
+        <p class="lede">Student accounts start here. Admin access is assigned separately.</p>
+
+        <p th:if="${error}" th:text="${error}" class="alert"></p>
+
+        <form method="post" th:action="@{/register}">
+          <div class="field">
+            <label for="fullName">Full name</label>
+            <input id="fullName" type="text" name="fullName" required>
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" type="email" name="email" required>
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <input id="password" type="password" name="password" required minlength="8">
+          </div>
+          <p style="margin:-0.4rem 0 1rem;font-size:0.85rem;color:var(--ink-soft);">
+            Use at least 8 characters.
+          </p>
+          <button class="btn" type="submit">Create account</button>
+        </form>
+
+        <p class="auth-foot">Already registered? <a th:href="@{/login}">Sign in</a></p>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

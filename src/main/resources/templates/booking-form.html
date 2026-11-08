@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Slotify — Request booking</title>
+    <link rel="stylesheet" th:href="@{/css/slotify.css}">
+</head>
+<body>
+    <div class="app-shell">
+        <header class="app-nav">
+            <a class="app-logo" th:href="@{/home}">Slotify</a>
+            <div class="app-nav-actions">
+                <a th:href="@{/resources}">Resources</a>
+                <a th:href="@{/bookings}">My bookings</a>
+                <a th:if="${user.role == 'ADMIN'}" th:href="@{/admin/bookings}">Admin</a>
+                <span th:href="${user.fullName}">Student</span>
+                <a th:href="@{/logout}">Sign out</a>
+            </div>
+        </header>
+
+        <main class="app-main">
+            <section class="hero-block">
+                <h1>Request booking</h1>
+                <p>
+                    Resource:
+                    <strong th:text="${resource.name}">Lab</strong>
+                    (<span th:text="${resource.type}">ROOM</span>)
+                </p>
+            </section>
+
+            <p th:if="${error}" th:text="${error}" class="alert" style="margin-top:1.2rem;"></p>
+
+            <form method="post" th:action="@{/bookings}" style="max-width:420px;margin-top:1.5rem;">
+                <input type="hidden" name="resourceId" th:value="${resource.resourceId}">
+
+                <div class="field">
+                    <label for="startAt">Start</label>
+                    <input id="startAt" type="datetime-local" name="startAt" required>
+                </div>
+
+                <div class="field">
+                    <label for="endAt">End</label>
+                    <input id="endAt" type="datetime-local" name="endAt" required>
+                </div>
+
+                <div class="field">
+                    <label for="purpose">Purpose</label>
+                    <input id="purpose" type="text" name="purpose" placeholder="e.g. Group study">
+                </div>
+
+                <button class="btn" type="submit">Submit request</button>
+            </form>
+        </main>
+    </div>
+</body>
+</html>
